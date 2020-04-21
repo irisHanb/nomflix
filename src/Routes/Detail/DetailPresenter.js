@@ -72,9 +72,6 @@ const SiteLink = styled.a`
   color: black;
   font-weight: 500;
 `;
-
-const TabsContainer = styled.div``;
-
 const Tabs = styled.div`
   margin-top: 25px;
 `;
@@ -91,6 +88,7 @@ const Tab = styled.span`
 `;
 
 const TabContentsContainer = styled.div`
+  width: 100%;
   margin-top: 5px;
 `;
 
@@ -190,6 +188,7 @@ const DetailPresenter = ({ result, err, loading }) => {
                 <div>
                   {result[info.key] ? (
                     <ProductionInfo
+                      key={info.key}
                       kind={info.key}
                       id={idx}
                       current={current}
@@ -200,7 +199,11 @@ const DetailPresenter = ({ result, err, loading }) => {
                       }
                     ></ProductionInfo>
                   ) : (
-                    <ProductionInfo id={idx} current={current}></ProductionInfo>
+                    <ProductionInfo
+                      key={info.key}
+                      id={idx}
+                      current={current}
+                    ></ProductionInfo>
                   )}
                 </div>
               );

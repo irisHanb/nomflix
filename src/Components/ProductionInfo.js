@@ -3,7 +3,7 @@ import React from 'react';
 import styled from 'styled-components';
 
 const Container = styled.div`
-  display: flex;
+  display: ${props => (props.id === props.current ? 'flex' : 'none')};
   flex-wrap: wrap;
   justify-content: flex-start;
 `;
@@ -15,8 +15,8 @@ const NoInfo = styled.div`
 `;
 
 const Item = styled.div`
-  width: 200px;
-  max-height: calc(200px * 1.6);
+  width: ${props => (props.kind === 'videos' ? '500px' : '150px')};
+  height: ${props => (props.kind === 'videos' ? '300px' : 'auto')};
   padding: 10px;
 
   display: flex;
@@ -30,6 +30,7 @@ const Item = styled.div`
   margin: 5px;
   margin-left: 0;
 `;
+
 const Title = styled.span`
   padding-bottom: 0.7em;
   font-weight: 400;
@@ -46,19 +47,21 @@ const Img = styled.img`
   height: 100%;
 `;
 
-const VideoContents = styled.span``;
+const VideoContents = styled.div`
+  width: 100%;
+  height: 100%;
+`;
 const Video = styled.iframe`
   width: 100%;
+  height: 100%;
 `;
 
 const ProductionInfo = ({ kind = 'no', id = 0, current = 0, list = [] }) => {
   return (
-    <Container
-      style={id === current ? { display: 'flex' } : { display: 'none' }}
-    >
+    <Container id={id} current={current}>
       {list.length === 0 && <NoInfo>There is no information.</NoInfo>}
       {list.map((ele, idx) => (
-        <Item>
+        <Item kind={kind}>
           {ele.name && (
             <Title>
               {ele.name}
@@ -84,10 +87,10 @@ const ProductionInfo = ({ kind = 'no', id = 0, current = 0, list = [] }) => {
           {kind === 'videos' && ele.key && (
             <VideoContents>
               <Video
-                title="New Official Trailer"
+                title={ele.name}
                 src={`https://www.youtube.com/embed/${ele.key.toString()}`}
                 frameborder="0"
-                allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+                allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture; fullscreen"
               ></Video>
             </VideoContents>
           )}
